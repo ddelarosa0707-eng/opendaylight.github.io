@@ -323,7 +323,6 @@
     border-left: 1px solid var(--border);
     padding-left: 24px;
   }
-  .stat:first-child { border-left: none; padding-left: 0; }
   .stat-num {
     font-family: var(--display);
     font-weight: 300;
@@ -681,14 +680,30 @@
   .comm-card {
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 32px 28px;
+    padding: 36px 28px;
     background: var(--surface);
     transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
   }
   .comm-card:hover {
     background: var(--surface-2);
     border-color: var(--signal);
+    transform: translateY(-4px);
   }
+  .comm-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--signal), var(--signal-2));
+    transition: width 0.4s;
+  }
+  .comm-card:hover::after { width: 100%; }
   .comm-icon {
     width: 44px; height: 44px;
     border-radius: 10px;
@@ -710,6 +725,18 @@
     color: var(--text-muted);
     font-size: 0.88rem;
     line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 20px;
+  }
+  .comm-link {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--signal);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
 
   /* ---------- SOLUTIONS ---------- */
@@ -1069,7 +1096,7 @@
     .projects-grid { grid-template-columns: repeat(2, 1fr); }
     .releases-grid { grid-template-columns: 1fr; }
     .steps-grid { grid-template-columns: repeat(2, 1fr); }
-    .community-grid { grid-template-columns: 1fr; }
+    .community-grid { grid-template-columns: repeat(2, 1fr); }
     .solutions-grid { grid-template-columns: repeat(2, 1fr); }
     .stories-grid { grid-template-columns: 1fr; }
     .tsc-grid { grid-template-columns: 1fr; }
@@ -1083,6 +1110,7 @@
     .stat { border-left: none; padding-left: 0; }
     .projects-grid { grid-template-columns: 1fr; }
     .solutions-grid { grid-template-columns: 1fr; }
+    .community-grid { grid-template-columns: 1fr; }
     .steps-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr; }
     .topbar-right { display: none; }
@@ -1115,10 +1143,10 @@
   <div class="container header-inner">
     <a class="logo" href="#">
       <div class="logo-mark">
-        <img src="./assets/odl-logo.svg" alt="OpenDaylight logo">
+        <img src="./assets/odl-logo.png" alt="OpenDaylight logo">
       </div>
       <div class="logo-text">
-        OpenDaylight
+        Open<b style="color: var(--signal); font-weight: 500;">Daylight</b>
         <span>Open SDN Platform</span>
       </div>
     </a>
@@ -1612,53 +1640,59 @@
     </div>
 
     <div class="community-grid">
-      <div class="comm-card">
+      <a href="https://github.com/opendaylight" class="comm-card">
         <div class="comm-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
         </div>
-        <h4>Gerrit & GitHub</h4>
+        <h4>Gerrit &amp; GitHub</h4>
         <p>All development happens in the open on Gerrit (primary) with mirrors on GitHub. Submit patches, review code, and track changes across 108 repositories.</p>
-      </div>
+        <span class="comm-link">View repositories &#8594;</span>
+      </a>
 
-      <div class="comm-card">
+      <a href="https://linuxfoundation.zulipchat.com" class="comm-card">
         <div class="comm-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </div>
         <h4>Zulip Chat</h4>
         <p>The community has moved to Zulip for real-time discussion. Find project-specific streams, ask questions, and participate in design discussions.</p>
-      </div>
+        <span class="comm-link">Join the conversation &#8594;</span>
+      </a>
 
-      <div class="comm-card">
+      <a href="https://lf-opendaylight.atlassian.net/wiki" class="comm-card">
         <div class="comm-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
         </div>
-        <h4>Wiki & Meetings</h4>
+        <h4>Wiki &amp; Meetings</h4>
         <p>Project documentation, meeting notes, and governance information live on the Confluence wiki. Weekly TSC calls are open to everyone.</p>
-      </div>
+        <span class="comm-link">Browse the wiki &#8594;</span>
+      </a>
 
-      <div class="comm-card">
+      <a href="https://lf-opendaylight.atlassian.net/wiki/spaces/ODL/pages/12529711/Technical+Steering+Committee+TSC" class="comm-card">
         <div class="comm-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         </div>
         <h4>TSC Governance</h4>
         <p>A Technical Steering Committee guides the project's direction. Meetings, decisions, and election records are all public and documented.</p>
-      </div>
+        <span class="comm-link">View TSC page &#8594;</span>
+      </a>
 
-      <div class="comm-card">
+      <a href="https://docs.opendaylight.org" class="comm-card">
         <div class="comm-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
         </div>
         <h4>Documentation</h4>
         <p>Comprehensive documentation covers getting started guides, developer tutorials, project-level guides, and release notes for every named release.</p>
-      </div>
+        <span class="comm-link">Read the docs &#8594;</span>
+      </a>
 
-      <div class="comm-card">
+      <a href="https://lists.opendaylight.org/g/tsc" class="comm-card">
         <div class="comm-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
-        <h4>Key Contributors</h4>
-        <p>Active contributing organizations include PANTHEON.tech, Orange, Red Hat, Ericsson, and a global community of individual contributors.</p>
-      </div>
+        <h4>Mailing Lists</h4>
+        <p>The TSC, developer, and announcement lists on Groups.io keep the community connected. Subscribe to stay current on releases, decisions, and discussions.</p>
+        <span class="comm-link">Subscribe &#8594;</span>
+      </a>
     </div>
   </div>
 </section>
@@ -1677,7 +1711,8 @@
     <div class="tsc-grid">
       <div class="tsc-info">
         <p>The TSC is responsible for simultaneous release dates, release quality standards, technical best practices, monitoring technical progress, and serving as OpenDaylight's liaison with other consortiums and groups.</p>
-        <p>TSC meetings are held weekly on Thursdays, alternating between a standard time (9:00 AM Pacific) and an APAC-friendly time (10:00 PM Pacific). All meetings are open to the community and minutes are published on the wiki.</p>
+        <p>TSC meetings are held weekly on Thursdays at 09:00 Pacific / 16:00 UTC. All meetings are open to the community and minutes are published on the wiki.</p>
+        <p>Join via Zoom: <a href="https://zoom-lfx.platform.linuxfoundation.org/meeting/98720081270?password=b23b0db3-c169-4456-9ac6-a67b535466f3" style="color: var(--signal); text-decoration: underline; text-underline-offset: 3px;">Register/Join Here</a></p>
         <p>Elections for Committer-At-Large seats are held annually. All OpenDaylight committers and Active Community Members can nominate themselves, run for election, and vote.</p>
 
         <div class="tsc-links">
@@ -1768,10 +1803,10 @@
       <div class="footer-brand">
         <a class="logo" href="#">
           <div class="logo-mark">
-            <img src="./assets/odl-logo.svg" alt="OpenDaylight logo">
+            <img src="./assets/odl-logo.png" alt="OpenDaylight logo">
           </div>
           <div class="logo-text">
-            OpenDaylight
+            Open<b style="color: var(--signal); font-weight: 500;">Daylight</b>
             <span>An LF Networking Project</span>
           </div>
         </a>
